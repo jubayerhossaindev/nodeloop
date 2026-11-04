@@ -1,0 +1,900 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-04T13:01:39.668Z",
+  "benchmark": {
+    "name": "nodeloop-vs-nodemon",
+    "timingDefinition": "spawn() call to unique READY marker printed by the target application",
+    "memoryDefinition": "aggregate memory of the benchmark tool process tree, not the benchmark runner",
+    "cpuDefinition": "aggregate process-tree CPU time divided by wall time; percentage of one logical core",
+    "fileWatchingDefinition": "elapsed time from writing watched.js to the next target application READY marker",
+    "watcherStabilityDefinition": "unexpected READY markers during a no-file-change observation window",
+    "fileCountDefinition": "configured file count means extra pre-existing fixture files; app.js and watched.js are additional control files",
+    "executionOrder": "paired sequential runs; tool order alternates every run to reduce order bias",
+    "caveats": [
+      "This is a fresh process launch benchmark, not a claim of a cold OS filesystem cache.",
+      "RSS can count shared pages more than once across processes; use PSS as a better shared-memory-adjusted view where available.",
+      "CPU peak is sampled and may miss very short spikes.",
+      "Windows process sampling uses PowerShell/CIM and has a larger sampling interval.",
+      "A watcher restart timeout means file-change detection was not observed in this environment; it is not silently treated as zero latency."
+    ]
+  },
+  "environment": {
+    "node": "v24.22.2",
+    "platform": "linux",
+    "osType": "Linux",
+    "osRelease": "6.8.0-1064-azure",
+    "architecture": "x64",
+    "logicalCpuCount": 2,
+    "availableCpuParallelism": 2,
+    "cgroupLimits": {
+      "cpuQuotaCores": null,
+      "memoryLimitGb": null,
+      "memoryCurrentGb": 0
+    },
+    "cpuModel": "AMD EPYC 7763 64-Core Processor",
+    "totalMemoryGb": 7.76,
+    "freeMemoryAtStartGb": 3.34,
+    "loadAverageAtStart": [3.19, 2.51, 1.71],
+    "sampleIntervalMs": 100,
+    "benchmarkRuns": 5,
+    "restartAttemptsPerRun": 3,
+    "fileCounts": [100, 500, 1000],
+    "watcherDelayMs": 200,
+    "idleWindowMs": 1000,
+    "watchSettleMs": 500,
+    "noChangeWindowMs": 750,
+    "timeoutMs": 60000,
+    "watchTimeoutMs": 15000,
+    "shutdownTimeoutMs": 8000
+  },
+  "configuration": {
+    "nodeloopCli": "/workspaces/codespaces-blank/packages/nodeloop/dist/cli.js",
+    "nodemonCli": "/workspaces/codespaces-blank/node_modules/nodemon/bin/nodemon.js",
+    "nodeloopArgs": ["-d", "200", "-w", "<fixture>", "app.js"],
+    "nodemonArgs": ["--delay", "0.2", "--watch", "<fixture>", "app.js"]
+  },
+  "results": {
+    "nodeloop": {
+      "startup": {
+        "appReadyMs": {
+          "count": 5,
+          "min": 95.09,
+          "max": 153.2,
+          "mean": 109.03,
+          "median": 99.26,
+          "standardDeviation": 22.16,
+          "p95": 153.2,
+          "p99": 153.2,
+          "samples": [95.09, 97.14, 99.26, 100.45, 153.2]
+        },
+        "resources": {
+          "idleRssKb": {
+            "count": 5,
+            "min": 59680,
+            "max": 60340,
+            "mean": 59936,
+            "median": 59916,
+            "standardDeviation": 225.51,
+            "p95": 60340,
+            "p99": 60340,
+            "samples": [59680, 59780, 59916, 59964, 60340]
+          },
+          "averageRssKb": {
+            "count": 5,
+            "min": 56381,
+            "max": 57157.85,
+            "mean": 56827.37,
+            "median": 56898,
+            "standardDeviation": 300.47,
+            "p95": 57157.85,
+            "p99": 57157.85,
+            "samples": [56381, 56588.33, 56898, 57111.67, 57157.85]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 59680,
+            "max": 60340,
+            "mean": 59936,
+            "median": 59916,
+            "standardDeviation": 225.51,
+            "p95": 60340,
+            "p99": 60340,
+            "samples": [59680, 59780, 59916, 59964, 60340]
+          },
+          "peakPssKb": {
+            "count": 5,
+            "min": 22244,
+            "max": 29331,
+            "mean": 24863.4,
+            "median": 24344,
+            "standardDeviation": 2479.87,
+            "p95": 29331,
+            "p99": 29331,
+            "samples": [22244, 23021, 24344, 25377, 29331]
+          },
+          "peakUssKb": {
+            "count": 5,
+            "min": 14292,
+            "max": 14768,
+            "mean": 14506.4,
+            "median": 14380,
+            "standardDeviation": 208.99,
+            "p95": 14768,
+            "p99": 14768,
+            "samples": [14292, 14340, 14380, 14752, 14768]
+          },
+          "peakSwapKb": {
+            "count": 5,
+            "min": 0,
+            "max": 0,
+            "mean": 0,
+            "median": 0,
+            "standardDeviation": 0,
+            "p95": 0,
+            "p99": 0,
+            "samples": [0, 0, 0, 0, 0]
+          },
+          "averageCpuPct": {
+            "count": 5,
+            "min": 6.09,
+            "max": 6.41,
+            "mean": 6.33,
+            "median": 6.38,
+            "standardDeviation": 0.12,
+            "p95": 6.41,
+            "p99": 6.41,
+            "samples": [6.09, 6.37, 6.38, 6.39, 6.41]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 59.03,
+            "max": 65.38,
+            "mean": 63.61,
+            "median": 64.67,
+            "standardDeviation": 2.37,
+            "p95": 65.38,
+            "p99": 65.38,
+            "samples": [59.03, 63.69, 64.67, 65.29, 65.38]
+          },
+          "idleAverageCpuPct": {
+            "count": 5,
+            "min": 0,
+            "max": 5.94,
+            "mean": 4.71,
+            "median": 5.88,
+            "standardDeviation": 2.36,
+            "p95": 5.94,
+            "p99": 5.94,
+            "samples": [0, 5.79, 5.88, 5.94, 5.94]
+          },
+          "cpuTimeMs": {
+            "count": 5,
+            "min": 70,
+            "max": 70,
+            "mean": 70,
+            "median": 70,
+            "standardDeviation": 0,
+            "p95": 70,
+            "p99": 70,
+            "samples": [70, 70, 70, 70, 70]
+          },
+          "startupCpuMs": {
+            "count": 1,
+            "min": 70,
+            "max": 70,
+            "mean": 70,
+            "median": 70,
+            "standardDeviation": 0,
+            "p95": 70,
+            "p99": 70,
+            "samples": [70]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 1,
+            "max": 1,
+            "mean": 1,
+            "median": 1,
+            "standardDeviation": 0,
+            "p95": 1,
+            "p99": 1,
+            "samples": [1, 1, 1, 1, 1]
+          },
+          "peakThreadCount": {
+            "count": 5,
+            "min": 12,
+            "max": 12,
+            "mean": 12,
+            "median": 12,
+            "standardDeviation": 0,
+            "p95": 12,
+            "p99": 12,
+            "samples": [12, 12, 12, 12, 12]
+          },
+          "voluntaryContextSwitches": {
+            "count": 5,
+            "min": 9,
+            "max": 78,
+            "mean": 25.6,
+            "median": 10,
+            "standardDeviation": 26.66,
+            "p95": 78,
+            "p99": 78,
+            "samples": [9, 9, 10, 22, 78]
+          },
+          "involuntaryContextSwitches": {
+            "count": 5,
+            "min": 1,
+            "max": 24,
+            "mean": 8.6,
+            "median": 3,
+            "standardDeviation": 8.82,
+            "p95": 24,
+            "p99": 24,
+            "samples": [1, 2, 3, 13, 24]
+          }
+        },
+        "sampler": {
+          "supported": true,
+          "method": "/proc process-group sampler",
+          "sampleIntervalMs": 100
+        }
+      },
+      "startupWithFiles": {
+        "100": {
+          "startupMs": {
+            "count": 5,
+            "min": 100.19,
+            "max": 218.87,
+            "mean": 133.4,
+            "median": 101.77,
+            "standardDeviation": 46.07,
+            "p95": 218.87,
+            "p99": 218.87,
+            "samples": [100.19, 100.8, 101.77, 145.36, 218.87]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 59848,
+            "max": 60432,
+            "mean": 60088,
+            "median": 59928,
+            "standardDeviation": 236.62,
+            "p95": 60432,
+            "p99": 60432,
+            "samples": [59848, 59920, 59928, 60312, 60432]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 55.03,
+            "max": 71.4,
+            "mean": 68,
+            "median": 71.22,
+            "standardDeviation": 6.48,
+            "p95": 71.4,
+            "p99": 71.4,
+            "samples": [55.03, 71.05, 71.22, 71.29, 71.4]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 1,
+            "max": 1,
+            "mean": 1,
+            "median": 1,
+            "standardDeviation": 0,
+            "p95": 1,
+            "p99": 1,
+            "samples": [1, 1, 1, 1, 1]
+          }
+        },
+        "500": {
+          "startupMs": {
+            "count": 5,
+            "min": 93.07,
+            "max": 99.18,
+            "mean": 96.47,
+            "median": 97.97,
+            "standardDeviation": 2.63,
+            "p95": 99.18,
+            "p99": 99.18,
+            "samples": [93.07, 93.5, 97.97, 98.61, 99.18]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 59772,
+            "max": 60156,
+            "mean": 60016,
+            "median": 60056,
+            "standardDeviation": 134.15,
+            "p95": 60156,
+            "p99": 60156,
+            "samples": [59772, 59988, 60056, 60108, 60156]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 72.22,
+            "max": 77.02,
+            "mean": 74.31,
+            "median": 73.07,
+            "standardDeviation": 2.09,
+            "p95": 77.02,
+            "p99": 77.02,
+            "samples": [72.22, 72.58, 73.07, 76.67, 77.02]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 1,
+            "max": 1,
+            "mean": 1,
+            "median": 1,
+            "standardDeviation": 0,
+            "p95": 1,
+            "p99": 1,
+            "samples": [1, 1, 1, 1, 1]
+          }
+        },
+        "1000": {
+          "startupMs": {
+            "count": 5,
+            "min": 97.88,
+            "max": 105.44,
+            "mean": 100.63,
+            "median": 100.13,
+            "standardDeviation": 2.55,
+            "p95": 105.44,
+            "p99": 105.44,
+            "samples": [97.88, 99.5, 100.13, 100.21, 105.44]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 59876,
+            "max": 60356,
+            "mean": 60048,
+            "median": 59996,
+            "standardDeviation": 162.07,
+            "p95": 60356,
+            "p99": 60356,
+            "samples": [59876, 59988, 59996, 60024, 60356]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 67.88,
+            "max": 74.23,
+            "mean": 71.8,
+            "median": 72.05,
+            "standardDeviation": 2.18,
+            "p95": 74.23,
+            "p99": 74.23,
+            "samples": [67.88, 71.51, 72.05, 73.31, 74.23]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 1,
+            "max": 1,
+            "mean": 1,
+            "median": 1,
+            "standardDeviation": 0,
+            "p95": 1,
+            "p99": 1,
+            "samples": [1, 1, 1, 1, 1]
+          }
+        }
+      },
+      "shutdown": {
+        "gracefulShutdownMs": {
+          "count": 5,
+          "min": 217.89,
+          "max": 225.68,
+          "mean": 220,
+          "median": 218.94,
+          "standardDeviation": 2.9,
+          "p95": 225.68,
+          "p99": 225.68,
+          "samples": [217.89, 218.07, 218.94, 219.4, 225.68]
+        },
+        "successfulGracefulShutdowns": 5,
+        "forcedCleanupCount": 0,
+        "processesRemainingBeforeForceSamples": {
+          "count": 5,
+          "min": 0,
+          "max": 0,
+          "mean": 0,
+          "median": 0,
+          "standardDeviation": 0,
+          "p95": 0,
+          "p99": 0,
+          "samples": [0, 0, 0, 0, 0]
+        },
+        "errors": []
+      },
+      "fileWatching": {
+        "restartLatencyMs": {
+          "count": 15,
+          "min": 251.28,
+          "max": 314.68,
+          "mean": 286.51,
+          "median": 300.21,
+          "standardDeviation": 23.67,
+          "p95": 314.68,
+          "p99": 314.68,
+          "samples": [
+            251.28, 251.94, 253.36, 254.45, 256.54, 298.27, 299.6, 300.21, 300.72, 301.18, 301.63,
+            302.64, 302.69, 308.48, 314.68
+          ]
+        },
+        "noChangeWindowMs": 750,
+        "unexpectedRestarts": 0,
+        "runsWithUnexpectedRestarts": 0,
+        "attempted": 15,
+        "succeeded": 15,
+        "failed": 0,
+        "successRatePct": 100,
+        "errors": []
+      },
+      "sampleCounts": {
+        "startup": 5,
+        "shutdown": 5,
+        "restart": 5
+      }
+    },
+    "nodemon": {
+      "startup": {
+        "appReadyMs": {
+          "count": 5,
+          "min": 165.84,
+          "max": 313.55,
+          "mean": 209.94,
+          "median": 185.01,
+          "standardDeviation": 53.69,
+          "p95": 313.55,
+          "p99": 313.55,
+          "samples": [165.84, 176.65, 185.01, 208.65, 313.55]
+        },
+        "resources": {
+          "idleRssKb": {
+            "count": 5,
+            "min": 113208,
+            "max": 113716,
+            "mean": 113476.8,
+            "median": 113520,
+            "standardDeviation": 168.06,
+            "p95": 113716,
+            "p99": 113716,
+            "samples": [113208, 113400, 113520, 113540, 113716]
+          },
+          "averageRssKb": {
+            "count": 5,
+            "min": 99287.71,
+            "max": 103150.77,
+            "mean": 102154.9,
+            "median": 102729.85,
+            "standardDeviation": 1446.47,
+            "p95": 103150.77,
+            "p99": 103150.77,
+            "samples": [99287.71, 102605.54, 102729.85, 103000.62, 103150.77]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 113208,
+            "max": 113716,
+            "mean": 113476.8,
+            "median": 113520,
+            "standardDeviation": 168.06,
+            "p95": 113716,
+            "p99": 113716,
+            "samples": [113208, 113400, 113520, 113540, 113716]
+          },
+          "peakPssKb": {
+            "count": 5,
+            "min": 40890,
+            "max": 48023,
+            "mean": 44692.2,
+            "median": 43534,
+            "standardDeviation": 2838.11,
+            "p95": 48023,
+            "p99": 48023,
+            "samples": [40890, 43052, 43534, 47962, 48023]
+          },
+          "peakUssKb": {
+            "count": 5,
+            "min": 29104,
+            "max": 29596,
+            "mean": 29312.8,
+            "median": 29256,
+            "standardDeviation": 162.84,
+            "p95": 29596,
+            "p99": 29596,
+            "samples": [29104, 29252, 29256, 29356, 29596]
+          },
+          "peakSwapKb": {
+            "count": 5,
+            "min": 0,
+            "max": 0,
+            "mean": 0,
+            "median": 0,
+            "standardDeviation": 0,
+            "p95": 0,
+            "p99": 0,
+            "samples": [0, 0, 0, 0, 0]
+          },
+          "averageCpuPct": {
+            "count": 5,
+            "min": 14.49,
+            "max": 15.33,
+            "mean": 14.92,
+            "median": 14.93,
+            "standardDeviation": 0.33,
+            "p95": 15.33,
+            "p99": 15.33,
+            "samples": [14.49, 14.61, 14.93, 15.22, 15.33]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 69.69,
+            "max": 137.73,
+            "mean": 111.25,
+            "median": 118.32,
+            "standardDeviation": 22.68,
+            "p95": 137.73,
+            "p99": 137.73,
+            "samples": [69.69, 109.73, 118.32, 120.76, 137.73]
+          },
+          "idleAverageCpuPct": {
+            "count": 5,
+            "min": 2.71,
+            "max": 6.34,
+            "mean": 4.54,
+            "median": 4.54,
+            "standardDeviation": 1.15,
+            "p95": 6.34,
+            "p99": 6.34,
+            "samples": [2.71, 4.53, 4.54, 4.56, 6.34]
+          },
+          "cpuTimeMs": {
+            "count": 5,
+            "min": 170,
+            "max": 190,
+            "mean": 180,
+            "median": 180,
+            "standardDeviation": 6.32,
+            "p95": 190,
+            "p99": 190,
+            "samples": [170, 180, 180, 180, 190]
+          },
+          "startupCpuMs": {
+            "count": 5,
+            "min": 120,
+            "max": 150,
+            "mean": 130,
+            "median": 130,
+            "standardDeviation": 10.95,
+            "p95": 150,
+            "p99": 150,
+            "samples": [120, 120, 130, 130, 150]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 2,
+            "max": 3,
+            "mean": 2.6,
+            "median": 3,
+            "standardDeviation": 0.49,
+            "p95": 3,
+            "p99": 3,
+            "samples": [2, 2, 3, 3, 3]
+          },
+          "peakThreadCount": {
+            "count": 5,
+            "min": 18,
+            "max": 18,
+            "mean": 18,
+            "median": 18,
+            "standardDeviation": 0,
+            "p95": 18,
+            "p99": 18,
+            "samples": [18, 18, 18, 18, 18]
+          },
+          "voluntaryContextSwitches": {
+            "count": 5,
+            "min": 21,
+            "max": 206,
+            "mean": 62.2,
+            "median": 26,
+            "standardDeviation": 71.98,
+            "p95": 206,
+            "p99": 206,
+            "samples": [21, 26, 26, 32, 206]
+          },
+          "involuntaryContextSwitches": {
+            "count": 5,
+            "min": 71,
+            "max": 171,
+            "mean": 102.4,
+            "median": 79,
+            "standardDeviation": 37.67,
+            "p95": 171,
+            "p99": 171,
+            "samples": [71, 76, 79, 115, 171]
+          }
+        },
+        "sampler": {
+          "supported": true,
+          "method": "/proc process-group sampler",
+          "sampleIntervalMs": 100
+        }
+      },
+      "startupWithFiles": {
+        "100": {
+          "startupMs": {
+            "count": 5,
+            "min": 175.4,
+            "max": 289.12,
+            "mean": 203.97,
+            "median": 184.86,
+            "standardDeviation": 42.9,
+            "p95": 289.12,
+            "p99": 289.12,
+            "samples": [175.4, 179.4, 184.86, 191.08, 289.12]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 114940,
+            "max": 115444,
+            "mean": 115283.2,
+            "median": 115328,
+            "standardDeviation": 182.58,
+            "p95": 115444,
+            "p99": 115444,
+            "samples": [114940, 115276, 115328, 115428, 115444]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 98.52,
+            "max": 130.05,
+            "mean": 113.74,
+            "median": 110.31,
+            "standardDeviation": 11.36,
+            "p95": 130.05,
+            "p99": 130.05,
+            "samples": [98.52, 106.74, 110.31, 123.08, 130.05]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 2,
+            "max": 2,
+            "mean": 2,
+            "median": 2,
+            "standardDeviation": 0,
+            "p95": 2,
+            "p99": 2,
+            "samples": [2, 2, 2, 2, 2]
+          }
+        },
+        "500": {
+          "startupMs": {
+            "count": 5,
+            "min": 169.55,
+            "max": 261.46,
+            "mean": 197.66,
+            "median": 185.66,
+            "standardDeviation": 33.65,
+            "p95": 261.46,
+            "p99": 261.46,
+            "samples": [169.55, 172.1, 185.66, 199.52, 261.46]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 115412,
+            "max": 116208,
+            "mean": 115759.2,
+            "median": 115756,
+            "standardDeviation": 284.69,
+            "p95": 116208,
+            "p99": 116208,
+            "samples": [115412, 115512, 115756, 115908, 116208]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 110.73,
+            "max": 146.64,
+            "mean": 133.24,
+            "median": 139.95,
+            "standardDeviation": 12.72,
+            "p95": 146.64,
+            "p99": 146.64,
+            "samples": [110.73, 128.34, 139.95, 140.55, 146.64]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 2,
+            "max": 3,
+            "mean": 2.4,
+            "median": 2,
+            "standardDeviation": 0.49,
+            "p95": 3,
+            "p99": 3,
+            "samples": [2, 2, 2, 3, 3]
+          }
+        },
+        "1000": {
+          "startupMs": {
+            "count": 5,
+            "min": 174.4,
+            "max": 192.96,
+            "mean": 182.69,
+            "median": 182.49,
+            "standardDeviation": 6.64,
+            "p95": 192.96,
+            "p99": 192.96,
+            "samples": [174.4, 177.08, 182.49, 186.53, 192.96]
+          },
+          "peakRssKb": {
+            "count": 5,
+            "min": 115276,
+            "max": 115716,
+            "mean": 115426.4,
+            "median": 115372,
+            "standardDeviation": 156.39,
+            "p95": 115716,
+            "p99": 115716,
+            "samples": [115276, 115316, 115372, 115452, 115716]
+          },
+          "peakCpuPct": {
+            "count": 5,
+            "min": 109.28,
+            "max": 156.94,
+            "mean": 133.52,
+            "median": 135.51,
+            "standardDeviation": 15.4,
+            "p95": 156.94,
+            "p99": 156.94,
+            "samples": [109.28, 128.14, 135.51, 137.71, 156.94]
+          },
+          "peakProcessCount": {
+            "count": 5,
+            "min": 2,
+            "max": 3,
+            "mean": 2.6,
+            "median": 3,
+            "standardDeviation": 0.49,
+            "p95": 3,
+            "p99": 3,
+            "samples": [2, 2, 3, 3, 3]
+          }
+        }
+      },
+      "shutdown": {
+        "gracefulShutdownMs": {
+          "count": 5,
+          "min": 218.91,
+          "max": 242.27,
+          "mean": 225.2,
+          "median": 221.6,
+          "standardDeviation": 8.61,
+          "p95": 242.27,
+          "p99": 242.27,
+          "samples": [218.91, 221.02, 221.6, 222.18, 242.27]
+        },
+        "successfulGracefulShutdowns": 5,
+        "forcedCleanupCount": 0,
+        "processesRemainingBeforeForceSamples": {
+          "count": 5,
+          "min": 0,
+          "max": 0,
+          "mean": 0,
+          "median": 0,
+          "standardDeviation": 0,
+          "p95": 0,
+          "p99": 0,
+          "samples": [0, 0, 0, 0, 0]
+        },
+        "errors": []
+      },
+      "fileWatching": {
+        "restartLatencyMs": {
+          "count": 15,
+          "min": 256.93,
+          "max": 287.61,
+          "mean": 264.98,
+          "median": 262.47,
+          "standardDeviation": 7.42,
+          "p95": 287.61,
+          "p99": 287.61,
+          "samples": [
+            256.93, 258.18, 259.27, 259.54, 260.94, 260.95, 261.9, 262.47, 262.86, 265.69, 268.32,
+            269.02, 270.13, 270.83, 287.61
+          ]
+        },
+        "noChangeWindowMs": 750,
+        "unexpectedRestarts": 0,
+        "runsWithUnexpectedRestarts": 0,
+        "attempted": 15,
+        "succeeded": 15,
+        "failed": 0,
+        "successRatePct": 100,
+        "errors": []
+      },
+      "sampleCounts": {
+        "startup": 5,
+        "shutdown": 5,
+        "restart": 5
+      }
+    }
+  },
+  "comparisons": {
+    "appReadyMs": {
+      "nodeloopToNodemon": 0.537,
+      "fasterTool": "nodeloop",
+      "speedupFactor": 1.864,
+      "nodeloopPercentFaster": 46.35
+    },
+    "idleRssKb": {
+      "nodeloopToNodemon": 0.528,
+      "fasterTool": "nodeloop",
+      "speedupFactor": 1.895,
+      "nodeloopPercentFaster": 47.22
+    },
+    "peakRssKb": {
+      "nodeloopToNodemon": 0.528,
+      "fasterTool": "nodeloop",
+      "speedupFactor": 1.895,
+      "nodeloopPercentFaster": 47.22
+    },
+    "averageCpuPct": {
+      "nodeloopToNodemon": 0.427,
+      "fasterTool": "nodeloop",
+      "speedupFactor": 2.34,
+      "nodeloopPercentFaster": 57.27
+    },
+    "idleAverageCpuPct": {
+      "nodeloopToNodemon": 1.295,
+      "fasterTool": "nodemon",
+      "speedupFactor": 1.295,
+      "nodeloopPercentFaster": -29.52
+    },
+    "gracefulShutdownMs": {
+      "nodeloopToNodemon": 0.988,
+      "fasterTool": "nodeloop",
+      "speedupFactor": 1.012,
+      "nodeloopPercentFaster": 1.2
+    },
+    "restartLatencyMs": {
+      "nodeloopToNodemon": 1.144,
+      "fasterTool": "nodemon",
+      "speedupFactor": 1.144,
+      "nodeloopPercentFaster": -14.38
+    },
+    "startupWithFiles": {
+      "100": {
+        "nodeloopToNodemon": 0.551,
+        "fasterTool": "nodeloop",
+        "speedupFactor": 1.816,
+        "nodeloopPercentFaster": 44.95
+      },
+      "500": {
+        "nodeloopToNodemon": 0.528,
+        "fasterTool": "nodeloop",
+        "speedupFactor": 1.895,
+        "nodeloopPercentFaster": 47.23
+      },
+      "1000": {
+        "nodeloopToNodemon": 0.549,
+        "fasterTool": "nodeloop",
+        "speedupFactor": 1.823,
+        "nodeloopPercentFaster": 45.13
+      }
+    }
+  },
+  "executionErrors": {
+    "nodeloop": {
+      "startup": [],
+      "shutdown": [],
+      "restart": []
+    },
+    "nodemon": {
+      "startup": [],
+      "shutdown": [],
+      "restart": []
+    }
+  }
+}

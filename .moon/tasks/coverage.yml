@@ -1,0 +1,50 @@
+# Coverage aggregation tasks — inherited by all projects.
+# https://moonrepo.dev/docs/config/tasks
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+taskOptions:
+  cache: false
+  retryCount: 1
+  mergeArgs: 'append'
+  mergeDeps: 'append'
+  mergeInputs: 'append'
+  mergeOutputs: 'append'
+
+tasks:
+  coverageReport:
+    command: 'node tooling/scripts/check-coverage.ts'
+    description: 'Aggregate and check coverage reports'
+    toolchain: 'node'
+    inputs:
+      - 'coverage/**/*'
+      - 'target/tarpaulin-report.*'
+      - 'tooling/scripts/check-coverage.ts'
+    outputs:
+      - 'coverage/aggregate'
+    options:
+      cache: false
+      runInCI: true
+
+  coverage-upload:
+    command: 'node tooling/scripts/upload-coverage.ts'
+    description: 'Upload coverage to codecov/codecov.io'
+    toolchain: 'node'
+    inputs:
+      - 'coverage/aggregate'
+      - 'target/tarpaulin-report.*'
+    outputs: []
+    options:
+      cache: false
+      runInCI: true
+
+  coverage-check:
+    command: 'node tooling/scripts/check-coverage.ts --threshold'
+    description: 'Check coverage meets minimum threshold'
+    toolchain: 'node'
+    inputs:
+      - 'coverage/**/*'
+      - 'target/tarpaulin-report.*'
+    outputs: []
+    options:
+      cache: false
+      runInCI: true

@@ -1,0 +1,115 @@
+# rustfmt.toml — Rust formatter configuration (stable channel)
+# Reference: https://rust-lang.github.io/rustfmt/
+# Project: edition = "2024", rust-version = "1.99" (per Cargo.toml)
+# Toolchain: stable (pinned in rust-toolchain.toml). Only stable options are active.
+# Unstable (nightly-only) options are listed below in a commented block.
+
+# ============================================================================
+# EDITION & PARSING
+# ============================================================================
+
+# Edition used by the parser; kept in sync with Cargo.toml so rustfmt and
+# `cargo fmt` parse identically (default: "2015").
+edition = "2024"
+
+# Edition of the Rust Style Guide used for formatting (RFC 3338). Explicitly
+# set to avoid drift between `rustfmt` and `cargo fmt` (default: "2015").
+# Stable values: "2015", "2018", "2021", "2024".
+style_edition = "2024"
+
+# ============================================================================
+# LINE WIDTH & INDENTATION
+# ============================================================================
+
+# Maximum line width before wrapping (default: 100).
+max_width = 100
+
+# Number of spaces per indentation level (default: 4).
+tab_spaces = 4
+
+# Use spaces (not tab characters) for indentation (default: false).
+hard_tabs = false
+
+# Line endings; Unix LF for cross-platform consistency (default: "Auto").
+newline_style = "Unix"
+
+# ============================================================================
+# IMPORT & MODULE ORDERING
+# ============================================================================
+
+# Reorder `use` / `extern crate` statements alphabetically (default: true).
+reorder_imports = true
+
+# Reorder modules alphabetically (default: false).
+reorder_modules = true
+
+# ============================================================================
+# HEURISTICS & WIDTHS
+# ============================================================================
+
+# Granular width settings derived as a ratio of max_width (default: "Default").
+# Ratios: fn_call_width=60%, attr_fn_like_width=70%, struct_lit_width=18%,
+# struct_variant_width=35%, array_width=60%, chain_width=60%,
+# single_line_if_else_max_width=50%, single_line_let_else_max_width=50%.
+# Explicit width settings (fn_call_width, etc.) override these when set.
+use_small_heuristics = "Default"
+
+# ============================================================================
+# CONSTRUCT REWRITES (stable)
+# ============================================================================
+
+# Merge multiple `#[derive(...)]` attributes into one (default: true).
+merge_derives = true
+
+# Always print the ABI for `extern` items (default: true). Documents intent;
+# non-"C" ABIs are always printed regardless.
+force_explicit_abi = true
+
+# Trailing comma after block-based match arms; produces cleaner diffs when
+# adding arms (default: false).
+match_block_trailing_comma = true
+
+# Never include leading pipes on match arms (default: "Never"). Documents
+# intent; matches the canonical Rust style (default: "Never").
+match_arm_leading_pipes = "Never"
+
+# Remove redundant parentheses around expressions (default: false).
+remove_nested_parens = true
+
+# Use field init shorthand `Foo { x, y }` when fields match variables
+# (default: false).
+use_field_init_shorthand = true
+
+# Replace `try!(expr)` with the `?` operator (default: false).
+use_try_shorthand = true
+
+# Width threshold below which an array element is considered "short" and may
+# be formatted inline (default: 10).
+short_array_element_width_threshold = 10
+
+# ============================================================================
+# NIGHTLY / UNSTABLE OPTIONS (commented out — requires stable→nightly)
+# ============================================================================
+#
+# These are best-practice formatting options but are unstable and only work on
+# a nightly toolchain. To enable, change rust-toolchain.toml channel to
+# "nightly", uncomment the block below, and set unstable_features = true.
+#
+# Recommended nightly additions:
+#   trailing_comma = "Vertical"            # cleaner diffs on multi-line lists
+#   wrap_comments = true                   # wrap comments exceeding comment_width
+#   error_on_unformatted = true            # fail if comments/strings exceed max_width
+#   error_on_line_overflow = true          # fail if code cannot fit within max_width
+#   blank_lines_upper_bound = 1            # collapse multiple blank lines to one
+#   control_brace_style = "AlwaysSameLine" # braces on same line as control flow
+#   imports_granularity = "Preserve"       # keep import granularity as written
+#
+# To activate all of the above:
+#   unstable_features = true
+#   trailing_comma = "Vertical"
+#   wrap_comments = true
+#   error_on_unformatted = true
+#   error_on_line_overflow = true
+#   blank_lines_upper_bound = 1
+#   control_brace_style = "AlwaysSameLine"
+#   imports_granularity = "Preserve"

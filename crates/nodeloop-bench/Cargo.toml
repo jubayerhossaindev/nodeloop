@@ -1,0 +1,16 @@
+[package]
+name                   = "nodeloop-bench"
+version.workspace      = true
+edition.workspace      = true
+license.workspace      = true
+repository.workspace   = true
+rust-version.workspace = true
+description            = "Benchmark nodeloop vs nodemon from Rust"
+
+[[bin]]
+name = "nodeloop-bench"
+path = "src/main.rs"
+
+[dependencies]
+serde      = {version = "1", features = ["derive"]}
+serde_json = "1"

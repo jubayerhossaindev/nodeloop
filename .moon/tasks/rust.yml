@@ -1,0 +1,266 @@
+# Shared Rust task archetypes — inherited by Rust projects.
+# https://moonrepo.dev/docs/config/tasks
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+# File groups for Rust projects.
+fileGroups:
+  sources:
+    - 'src/**/*.rs'
+    - 'src/**/*.rlib'
+  tests:
+    - 'tests/**/*.rs'
+    - '**/*_test.rs'
+    - '**/tests/**/*.rs'
+  configs:
+    - 'Cargo.toml'
+    - 'Cargo.lock'
+    - 'rust-toolchain.toml'
+    - 'rustfmt.toml'
+    - 'clippy.toml'
+    - 'build.rs'
+  build:
+    - 'build.rs'
+    - '.cargo/**/*'
+    - 'cargo-config.toml'
+    - '.cargo/config.toml'
+  tooling:
+    - 'tooling/**/*'
+    - 'benchmarks/**/*'
+    - 'examples/**/*'
+  benches:
+    - 'benches/**/*'
+    - 'benches/*.rs'
+
+# Inputs implicitly added to every inherited task.
+implicitInputs:
+  - 'Cargo.toml'
+  - 'Cargo.lock'
+  - 'rust-toolchain.toml'
+  - 'rustfmt.toml'
+  - 'clippy.toml'
+
+# Only inherit for Rust projects.
+inheritedBy:
+  languages:
+    - 'rust'
+
+# Task options inherited by all Rust tasks.
+taskOptions:
+  cache: true
+  retryCount: 2
+  mergeArgs: 'append'
+  mergeDeps: 'append'
+  mergeInputs: 'append'
+  mergeOutputs: 'append'
+
+tasks:
+  build:
+    command: 'cargo build'
+    description: 'Build the Rust crate'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+      - '@group(build)'
+    outputs:
+      - 'target/debug'
+    options:
+      cache: true
+      retryCount: 1
+      mergeDeps: 'append'
+
+  build-release:
+    command: 'cargo build --release'
+    description: 'Build the Rust crate in release mode'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+      - '@group(build)'
+    outputs:
+      - 'target/release'
+    options:
+      cache: true
+      retryCount: 1
+      mergeDeps: 'append'
+
+  check:
+    command: 'cargo check'
+    description: 'Check the Rust crate compiles'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+
+  test:
+    command: 'cargo test'
+    description: 'Run the Rust test suite'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 2
+
+  test-release:
+    command: 'cargo test --release'
+    description: 'Run the Rust test suite in release mode'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+
+  test-all:
+    command: 'cargo test --all-targets'
+    description: 'Run all Rust tests including doc tests'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 2
+      runInCI: true
+
+  lint:
+    command: 'cargo clippy --all-targets -- -D warnings'
+    description: 'Lint the Rust crate with Clippy'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+      runInCI: true
+
+  lint-fix:
+    command: 'cargo clippy --all-targets --fix --allow-dirty -- -D warnings'
+    description: 'Lint and auto-fix the Rust crate with Clippy'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 0
+
+  fmt:
+    command: 'cargo fmt --all -- --check'
+    description: 'Check Rust code formatting with rustfmt'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+
+  fmt-write:
+    command: 'cargo fmt --all'
+    description: 'Format Rust code with rustfmt (write)'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 0
+
+  doc:
+    command: 'cargo doc --no-deps'
+    description: 'Generate Rust documentation'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+    outputs:
+      - 'target/doc'
+    options:
+      cache: true
+      retryCount: 1
+
+  clippy:
+    command: 'cargo clippy --all-targets'
+    description: 'Run Clippy lints (warnings only)'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+
+  audit:
+    command: 'cargo audit'
+    description: 'Audit Rust dependencies for vulnerabilities'
+    toolchain: 'rust'
+    inputs:
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 1
+      runInCI: true
+
+  outdated:
+    command: 'cargo outdated'
+    description: 'Check for outdated Rust dependencies'
+    toolchain: 'rust'
+    inputs:
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 1
+
+  bench:
+    command: 'cargo bench'
+    description: 'Run Rust benchmarks'
+    toolchain: 'rust'
+    inputs:
+      - '@group(sources)'
+      - '@group(benches)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 1
+
+  upgrade:
+    command: 'cargo upgrade'
+    description: 'Upgrade Rust dependencies'
+    toolchain: 'rust'
+    inputs:
+      - 'Cargo.lock'
+      - 'Cargo.toml'
+    outputs: []
+    options:
+      cache: false
+      interactive: true

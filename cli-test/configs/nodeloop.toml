@@ -1,0 +1,12 @@
+colours     = true
+delay       = 200
+env         = {TEST_VAR = "hello-from-toml"}
+ext         = "js,mjs,cjs,json"
+ignore      = ["logs", "node_modules", "uploads"]
+killSignal  = "SIGINT"
+killTimeout = 5000
+legacyWatch = false
+maxWait     = 0
+quiet       = false
+restartable = "rs"
+verbose     = true

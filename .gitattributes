@@ -1,0 +1,19 @@
+# .gitattributes — normalize line endings and mark generated binary
+* text=auto eol=lf
+
+*.node binary
+*.tgz binary
+target/ binary
+dist/ linguist-generated
+
+# Rust
+*.rs text diff=rust
+
+# Docs
+*.md text eol=lf
+
+# Config
+*.toml text
+*.json text
+*.yaml text
+*.yml text

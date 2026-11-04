@@ -1,0 +1,99 @@
+# .taplo.toml — Taplo TOML linter & formatter configuration
+# https://taplo.tamasfe.dev/configuration/file.html
+# Project: nodeloop — Pure nodemon-style auto-restart runner (TS + Rust)
+
+include = ["**/*.toml"]
+
+exclude = [
+    "**/.cargo/**",
+    "**/.git/**",
+    "**/Cargo.toml",
+    "**/build/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/out/**",
+    "**/target/**",
+]
+
+# Self-validate taplo.toml against the built-in schema.
+[schema]
+path = "taplo://taplo.toml"
+enabled = true
+
+# Global formatting options (all supported keys shown with best-practice values).
+[formatting]
+align_entries = true
+align_comments = true
+allowed_blank_lines = 2
+array_trailing_comma = true
+array_auto_expand = true
+array_auto_collapse = true
+compact_arrays = true
+compact_entries = false
+compact_inline_tables = true
+column_width = 80
+crlf = false
+indent_entries = false
+indent_string = "    "
+indent_tables = false
+inline_table_expand = true
+reorder_keys = true
+reorder_arrays = true
+reorder_inline_tables = false
+trailing_newline = true
+
+# Cargo.toml — reorder dependency arrays and workspace keys.
+[[rule]]
+include = ["**/Cargo.toml"]
+keys = [
+    "build-dependencies",
+    "dependencies",
+    "dev-dependencies",
+    "workspace.dependencies",
+]
+[rule.formatting]
+align_entries = true
+reorder_keys = true
+reorder_arrays = true
+
+# Cargo.toml — do not reorder keys within [package] (Cargo convention).
+[[rule]]
+include = ["**/Cargo.toml"]
+keys = ["package"]
+[rule.formatting]
+reorder_keys = false
+align_comments = true
+
+# Cargo.toml — reorder features arrays.
+[[rule]]
+include = ["**/Cargo.toml"]
+keys = ["features"]
+[rule.formatting]
+reorder_arrays = true
+
+# pyproject.toml — preserve manual key ordering (PEP 621 convention).
+[[rule]]
+include = ["pyproject.toml"]
+[rule.formatting]
+reorder_keys = false
+align_entries = true
+align_comments = true
+
+# rust-toolchain.toml — preserve toolchain pinning order.
+[[rule]]
+include = ["rust-toolchain.toml"]
+[rule.formatting]
+reorder_keys = false
+
+# clippy.toml / rustfmt.toml — preserve lint option ordering.
+[[rule]]
+include = ["clippy.toml", "rustfmt.toml"]
+[rule.formatting]
+reorder_keys = false
+
+# taplo.toml itself — preserve config key order.
+[[rule]]
+include = [".taplo.toml", "taplo.toml"]
+[rule.formatting]
+reorder_keys = false
+align_entries = false

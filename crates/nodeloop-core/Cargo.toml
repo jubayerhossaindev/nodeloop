@@ -1,0 +1,15 @@
+[package]
+name                   = "nodeloop-core"
+version.workspace      = true
+edition.workspace      = true
+license.workspace      = true
+repository.workspace   = true
+rust-version.workspace = true
+description            = "Pure nodemon-style auto-restart engine core: watcher, debounce engine and process-tree supervisor."
+
+[dependencies]
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"

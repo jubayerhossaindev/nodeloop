@@ -1,0 +1,2 @@
+# commit-msg — conventional commits enforcement via commitlint
+npx --no-install commitlint --config commitlint.config.js --edit "$1"

@@ -1,0 +1,24 @@
+{
+  "name": "@nodeloop/native-win32-arm64-msvc",
+  "version": "1.0.0",
+  "description": "nodeloop native watcher/supervisor binary — Windows ARM64 (MSVC toolchain)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jubayerhossaindev/nodeloop.git",
+    "directory": "packages/native/win32-arm64-msvc"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "./nodeloop_native.node",
+  "files": [
+    "nodeloop_native.node"
+  ],
+  "engines": {
+    "node": ">=24.22.2"
+  }
+}

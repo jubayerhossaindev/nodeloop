@@ -1,0 +1,27 @@
+# nodeloop.yaml — FULL reference config: every key the YAML subset supports.
+# Flat "key: value", "- item" block lists, "# comments". No nested maps.
+
+script: server.js # script to run (same as first CLI arg)
+scriptArgs: # args AFTER the script, verbatim to your app
+  - --port
+  - 3000
+ext: js,mjs,cjs,json # restart on changes to these (default: js,mjs,cjs,json)
+ignore: # dir names to skip
+  - node_modules
+  - dist
+  - uploads
+  - logs
+watch: # only restart for changes under these paths
+  - src
+  - lib
+delay: 250 # ms debounce after a change (default: 200)
+maxWait: 5000 # ms before a change burst forces a restart (0 = off)
+verbose: true # show what is causing restarts
+quiet: false # true = your app output only, banners off
+killSignal: SIGTERM # signal sent to the child on restart
+killTimeout: 2000 # ms before escalating to SIGKILL (default: 3000)
+exec: node # or tsx, "npm run dev", ...
+nodeArgs: # extra args for node itself (ie. --inspect)
+  - --enable-source-maps
+# env is NOT expressible in the YAML subset (no nested maps) —
+# use nodeloop.json / nodeloop.toml / nodeloop.js when you need env.

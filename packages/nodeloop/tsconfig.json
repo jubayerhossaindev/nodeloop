@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    // Environment & Runtime
+    "target": "ES2023",
+    "module": "Node20",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "moduleDetection": "force",
+
+    // Strict Type Checking
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedSideEffectImports": true,
+
+    // Module & Import Safety
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+
+    // Declaration & Source Maps
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    // Build Output
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "noEmitOnError": true,
+    "newLine": "lf",
+
+    // Compatibility & Performance
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "target",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**"
+  ]
+}

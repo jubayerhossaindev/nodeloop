@@ -1,0 +1,4 @@
+# crates/nodeloop-native/moon.yml — Rust crate project
+$schema: 'https://moonrepo.dev/schemas/project.json'
+
+language: 'rust'

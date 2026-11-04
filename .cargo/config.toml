@@ -1,0 +1,19 @@
+# .cargo/config.toml — Cargo build configuration
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+# Offline-friendly: prefer vendored/cached crates when network is unavailable
+# offline = false
+
+[profile.dev]
+opt-level = 1
+debug = 2
+
+[profile.release]
+lto = true
+strip = "symbols"
+codegen-units = 1
+opt-level = 3
+
+[target.'cfg(unix)']
+linker = "cc"

@@ -1,0 +1,15 @@
+{
+  "ext": "js,mjs,cjs,json",
+  "ignore": ["node_modules", "logs", "uploads"],
+  "delay": 300,
+  "verbose": true,
+  "quiet": false,
+  "env": {
+    "TEST_VAR": "hello-from-nodelooprc"
+  },
+  "killSignal": "SIGTERM",
+  "killTimeout": 3000,
+  "restartable": "rs",
+  "colours": true,
+  "legacyWatch": false
+}

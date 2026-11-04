@@ -1,0 +1,10 @@
+# Toolchains available in this workspace.
+$schema: 'https://moonrepo.dev/schemas/toolchain.json'
+
+node:
+  version: '>=24.0.0'
+  packageManager: 'npm'
+
+rust:
+  # stable channel is pinned in rust-toolchain.toml
+  version: 'stable'

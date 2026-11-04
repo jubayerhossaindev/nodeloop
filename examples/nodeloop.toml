@@ -1,0 +1,32 @@
+# nodeloop.toml — FULL reference config: every supported key.
+# Flat "key = value", single-line arrays, "# comments".
+# Unsupported TOML syntax fails loudly with the line number, never silently.
+
+delay = 250 # ms debounce after a change (default: 200)
+exec = "node" # or "tsx", "deno run -A", "npm run dev", ...
+ext = [
+    "cjs",
+    "js",
+    "json",
+    "mjs",
+] # restart on changes to these (default: js,mjs,cjs,json)
+ignore = ["dist", "logs", "node_modules", "uploads"] # dir names to skip
+killSignal = "SIGTERM" # signal sent to the child on restart
+killTimeout = 2000 # ms before escalating to SIGKILL (default: 3000)
+maxWait = 5000 # ms before a change burst forces a restart (0 = off)
+nodeArgs = [
+    "--enable-source-maps",
+] # extra args for node itself (ie. "--inspect")
+quiet = false # true = your app output only, banners off
+script = "server.js" # script to run (same as first CLI arg)
+scriptArgs = ["--port", 3000] # args AFTER the script, verbatim to your app
+verbose = true # show what is causing restarts
+watch = ["lib", "src"] # only restart for changes under these paths
+
+# env values are stringified: 3000 -> "3000", true -> "true"
+# NOTE: keys after a [section] header belong to that section —
+# so [env] must be the LAST block in this file.
+[env]
+DEBUG    = true
+NODE_ENV = "development"
+PORT     = 3000

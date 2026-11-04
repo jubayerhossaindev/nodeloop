@@ -1,0 +1,108 @@
+{
+  "name": "nodeloop",
+  "version": "1.0.0",
+  "description": "TypeScript implementation of the nodeloop CLI — pure nodemon-style auto-restart runner. Rust-accelerated watcher/supervisor with a portable TypeScript fallback contract.",
+  "homepage": "https://github.com/jubayerhossaindev/nodeloop#readme",
+  "bugs": {
+    "url": "https://github.com/jubayerhossaindev/nodeloop/issues"
+  },
+  "packageManager": "npm@12.2.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "nodeloop": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:native": "napi build --release",
+    "build:native:ci": "napi build --release --upload",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=24.22.2"
+  },
+  "license": "Apache-2.0",
+  "author": "nodeloop contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jubayerhossaindev/nodeloop.git",
+    "directory": "packages/nodeloop"
+  },
+  "keywords": [
+    "nodemon",
+    "devtools",
+    "hot-reload",
+    "auto-restart",
+    "file-watcher",
+    "cli",
+    "typescript",
+    "node-cli",
+    "restart",
+    "watch",
+    "watcher",
+    "live-reload",
+    "development-server",
+    "nodejs",
+    "typescript-cli",
+    "auto-reload",
+    "file-system-watcher",
+    "process-manager",
+    "supervisor",
+    "dev-server",
+    "npm-cli",
+    "build-watcher",
+    "cicd",
+    "developer-experience",
+    "dx"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@napi-rs/cli": "3.10.12",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/eslint-plugin-promise": "^7.3.0",
+    "@types/node": "^26.6.6",
+    "@vitest/coverage-v8": "^5.1.0",
+    "@vitest/eslint-plugin": "^1.6.28",
+    "eslint": "^10.14.0",
+    "eslint-formatter-crisp": "^1.0.2",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-n": "18.5.0",
+    "eslint-plugin-promise": "^7.3.0",
+    "eslint-plugin-security": "4.2.1",
+    "eslint-plugin-unicorn": "^79.0.0",
+    "globals": "^17.14.0",
+    "jiti": "^2.7.0",
+    "taze": "21.3.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.1.0"
+  },
+  "optionalDependencies": {
+    "@nodeloop/native-linux-x64-gnu": "^1.0.0",
+    "@nodeloop/native-linux-arm64-gnu": "^1.0.0",
+    "@nodeloop/native-darwin-arm64": "^1.0.0",
+    "@nodeloop/native-darwin-x64": "^1.0.0",
+    "@nodeloop/native-win32-x64-msvc": "^1.0.0",
+    "@nodeloop/native-win32-arm64-msvc": "^1.0.0"
+  }
+}

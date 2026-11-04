@@ -1,0 +1,4 @@
+# tooling/moon.yml — Node.js tooling project
+$schema: 'https://moonrepo.dev/schemas/project.json'
+
+language: 'typescript'

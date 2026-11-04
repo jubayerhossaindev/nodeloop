@@ -1,0 +1,4 @@
+# pre-commit — lint staged files via lint-staged
+
+npm run lint --silent
+npm run lint-staged --silent

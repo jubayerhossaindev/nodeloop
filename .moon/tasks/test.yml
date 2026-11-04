@@ -1,0 +1,57 @@
+# Shared test-focused task archetypes — inherited by all projects.
+# https://moonrepo.dev/docs/config/tasks
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+taskOptions:
+  cache: true
+  retryCount: 2
+  mergeArgs: 'append'
+  mergeDeps: 'append'
+  mergeInputs: 'append'
+  mergeOutputs: 'append'
+
+tasks:
+  testAll:
+    command: 'moon run :test --all'
+    description: 'Run tests across all projects'
+    toolchain: 'system'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+    options:
+      cache: false
+      runInCI: true
+      runDepsInParallel: false
+
+  test-affected:
+    command: 'moon run :test --affected'
+    description: 'Run tests for affected projects only'
+    toolchain: 'system'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+    options:
+      cache: false
+      runInCI: true
+
+  coverage:
+    command: 'moon run :coverage'
+    description: 'Run coverage tasks across all projects'
+    toolchain: 'system'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+    options:
+      cache: false
+      runInCI: true
+
+  coverage-all:
+    command: 'moon run :coverage:all --all'
+    description: 'Run coverage for all projects'
+    toolchain: 'system'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+    options:
+      cache: false
+      runInCI: true

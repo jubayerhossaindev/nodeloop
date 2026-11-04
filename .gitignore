@@ -1,0 +1,23 @@
+node_modules/
+*.tgz
+.npmrc
+.env
+.DS_Store
+coverage/
+.tmp/
+
+# ---- monorepo additions (nothing above was changed) ----
+# Rust build artifacts
+target/
+# TypeScript build output
+dist/
+# native addon binaries
+*.node
+packages/nodeloop/build/
+# moonrepo cache/state
+.moon/cache/
+.moon/state/
+# husky v9 internal dir
+.husky/_/
+# vitest temp
+vitest-temp/

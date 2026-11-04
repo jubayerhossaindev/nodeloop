@@ -1,0 +1,168 @@
+name: Native Prebuilds & npm Publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'crates/**'
+      - 'packages/nodeloop/src/native/**'
+      - 'packages/native/**'
+      - 'tooling/scripts/build-native.ts'
+      - 'tooling/scripts/package-native.ts'
+      - '.github/workflows/native.yml'
+
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'crates/**'
+      - 'packages/nodeloop/src/native/**'
+      - 'packages/native/**'
+      - 'tooling/scripts/build-native.ts'
+      - 'tooling/scripts/package-native.ts'
+      - '.github/workflows/native.yml'
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = validate only; false = publish to npm'
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x64-gnu
+            package: packages/native/linux-x64-gnu
+
+          - os: ubuntu-24.04-arm
+            target: linux-arm64-gnu
+            package: packages/native/linux-arm64-gnu
+
+          - os: macos-15
+            target: darwin-arm64
+            package: packages/native/darwin-arm64
+
+          - os: macos-15-intel
+            target: darwin-x64
+            package: packages/native/darwin-x64
+
+          - os: windows-2025
+            target: win32-x64-msvc
+            package: packages/native/win32-x64-msvc
+
+          - os: windows-11-arm
+            target: win32-arm64-msvc
+            package: packages/native/win32-arm64-msvc
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build native addon
+        run: node tooling/scripts/build-native.ts
+
+      - name: Package native addon
+        run: node tooling/scripts/package-native.ts
+
+      - name: Upload native artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: nodeloop-native-${{ matrix.target }}
+          path: ${{ matrix.package }}/nodeloop_native.node
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish ${{ matrix.target }} to npm
+
+    needs: build
+
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+
+      matrix:
+        target:
+          - linux-x64-gnu
+          - linux-arm64-gnu
+          - darwin-arm64
+          - darwin-x64
+          - win32-x64-msvc
+          - win32-arm64-msvc
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download native artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: nodeloop-native-${{ matrix.target }}
+          path: packages/native/${{ matrix.target }}
+
+      - name: Validate npm package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGE_DIR: packages/native/${{ matrix.target }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::Missing NPM_TOKEN repository secret."
+            exit 1
+          fi
+
+          test -s "$PACKAGE_DIR/nodeloop_native.node"
+
+      - name: Publish to npm
+        if: inputs.dry_run == false
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGE_DIR: packages/native/${{ matrix.target }}
+        run: |
+          npm publish "./$PACKAGE_DIR" --access public
+
+      - name: Dry-run result
+        if: inputs.dry_run == true
+        env:
+          PACKAGE_DIR: packages/native/${{ matrix.target }}
+        run: |
+          echo "Validated $PACKAGE_DIR"
+          echo "No package was published. Run again with dry_run=false."

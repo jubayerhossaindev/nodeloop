@@ -1,0 +1,29 @@
+[package]
+name                   = "nodeloop-native"
+version.workspace      = true
+edition.workspace      = true
+license.workspace      = true
+repository.workspace   = true
+rust-version.workspace = true
+description            = "N-API bridge between the nodeloop TypeScript CLI and the nodeloop-core Rust engine."
+build                  = "build.rs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+napi = {version = "3.16", default-features = false, features = [
+    "napi4",
+    "serde-json",
+]}
+napi-derive = "3.7"
+nodeloop-core = {path = "../nodeloop-core"}
+serde = {version = "1", features = ["derive"]}
+serde_json = "1"
+
+[dev-dependencies]
+serde_json = "1"
+tempfile   = "3"
+
+[build-dependencies]
+napi-build = "2"

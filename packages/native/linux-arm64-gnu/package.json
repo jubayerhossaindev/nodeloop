@@ -1,0 +1,24 @@
+{
+  "name": "@nodeloop/native-linux-arm64-gnu",
+  "version": "1.0.0",
+  "description": "nodeloop native watcher/supervisor binary — Linux ARM64 (glibc)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jubayerhossaindev/nodeloop.git",
+    "directory": "packages/native/linux-arm64-gnu"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "./nodeloop_native.node",
+  "files": [
+    "nodeloop_native.node"
+  ],
+  "engines": {
+    "node": ">=24.22.2"
+  }
+}

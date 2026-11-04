@@ -1,0 +1,27 @@
+# Code Owners
+
+## Rust native core
+
+/crates/ @jubayerhossaindev
+
+## TypeScript CLI and packages
+
+/packages/ @jubayerhossaindev
+
+## Native addon build and packaging
+
+/tooling/ @jubayerhossaindev
+
+## CI/CD and GitHub workflows
+
+/.github/ @jubayerhossaindev
+
+## Documentation
+
+/docs/ @jubayerhossaindev
+
+## Benchmarks, demo, and examples
+
+/benchmarks/ @jubayerhossaindev
+/demo/ @jubayerhossaindev
+/examples/ @jubayerhossaindev

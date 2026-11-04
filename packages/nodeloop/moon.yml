@@ -1,0 +1,4 @@
+# packages/nodeloop/moon.yml — TypeScript CLI project
+$schema: 'https://moonrepo.dev/schemas/project.json'
+
+language: 'typescript'

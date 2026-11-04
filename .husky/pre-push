@@ -1,0 +1,14 @@
+# pre-push — full verification before anything leaves the machine
+set -e
+
+echo "▸ typescript: typecheck + lint + tests"
+npm run typecheck:ts --silent
+npm run lint --silent
+npm run lint:ts --silent
+npm run lint-staged --silent
+npm run test:ts --silent
+
+echo "▸ rust: workspace tests"
+npm run test:rust --silent
+
+echo "✓ all pre-push checks passed"

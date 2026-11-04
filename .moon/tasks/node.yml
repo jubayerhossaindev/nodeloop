@@ -1,0 +1,253 @@
+# Shared Node/TypeScript task archetypes — inherited by JS/TS projects.
+# https://moonrepo.dev/docs/config/tasks
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+# File groups for Node/TypeScript projects.
+fileGroups:
+  sources:
+    - 'src/**/*.ts'
+    - 'src/**/*.tsx'
+    - 'src/**/*.js'
+    - 'src/**/*.mjs'
+    - 'types/**/*'
+  tests:
+    - 'test/**/*.test.ts'
+    - 'test/**/*.test.tsx'
+    - 'test/**/*.test.js'
+    - 'tests/**/*.test.ts'
+    - 'tests/**/*.test.tsx'
+    - 'tests/**/*.test.js'
+    - '**/*.test.ts'
+    - '**/*.test.tsx'
+    - '**/*.test.js'
+    - '**/__tests__/**/*'
+  configs:
+    - '*.config.ts'
+    - '*.config.js'
+    - '*.config.mjs'
+    - '*.config.cjs'
+    - 'tsconfig.json'
+    - 'tsconfig.*.json'
+    - 'package.json'
+    - 'eslint.config.ts'
+    - 'eslint.config.js'
+    - 'vitest.config.ts'
+    - 'vitest.config.js'
+    - '.eslintrc.*'
+    - '.prettierrc.*'
+    - 'prettier.config.*'
+  assets:
+    - 'assets/**/*'
+    - 'static/**/*'
+    - 'public/**/*'
+    - 'demo/**/*'
+  i18n:
+    - 'locales/**/*'
+    - 'lang/**/*'
+  tooling:
+    - 'tooling/**/*'
+    - 'benchmarks/**/*'
+    - 'examples/**/*'
+
+# Inputs implicitly added to every inherited task.
+implicitInputs:
+  - 'package.json'
+  - 'package-lock.json'
+  - 'tsconfig.json'
+  - 'eslint.config.ts'
+  - 'vitest.config.ts'
+
+# Only inherit for TypeScript/JavaScript projects.
+inheritedBy:
+  languages:
+    - 'typescript'
+    - 'javascript'
+
+# Task options inherited by all Node/TypeScript tasks.
+taskOptions:
+  cache: true
+  retryCount: 2
+  mergeArgs: 'append'
+  mergeDeps: 'append'
+  mergeInputs: 'append'
+  mergeOutputs: 'append'
+
+tasks:
+  build:
+    command: 'npm run build'
+    description: 'Build the TypeScript project'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+    outputs:
+      - 'dist'
+      - 'build'
+    options:
+      cache: true
+      retryCount: 1
+      mergeDeps: 'append'
+
+  build-watch:
+    command: 'npm run build:watch'
+    description: 'Build the TypeScript project in watch mode'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+    outputs:
+      - 'dist'
+      - 'build'
+    options:
+      cache: false
+      runInCI: false
+      persistent: true
+
+  typecheck:
+    command: 'npm run typecheck'
+    description: 'Type-check the TypeScript project'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+      runFromWorkspaceRoot: true
+
+  lint:
+    command: 'npm run lint'
+    description: 'Lint TypeScript source with ESLint'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    options:
+      cache: true
+      retryCount: 1
+      runFromWorkspaceRoot: true
+
+  lint-fix:
+    command: 'npm run lint:fix'
+    description: 'Lint and auto-fix TypeScript source with ESLint'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    options:
+      cache: false
+      retryCount: 0
+
+  test:
+    command: 'npm test'
+    description: 'Run the vitest test suite'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs:
+      - 'coverage'
+    options:
+      cache: true
+      retryCount: 2
+      runFromWorkspaceRoot: true
+
+  test-coverage:
+    command: 'npm run test:coverage'
+    description: 'Run tests with coverage reporting'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    outputs:
+      - 'coverage'
+    options:
+      cache: true
+      retryCount: 1
+      runInCI: true
+
+  test-ui:
+    command: 'npm run test:ui'
+    description: 'Run vitest in UI mode'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+    options:
+      cache: false
+      interactive: true
+      runInCI: false
+
+  format:
+    command: 'npm run format'
+    description: 'Format code with Prettier'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+      - '@group(docs)'
+      - '@group(i18n)'
+    outputs: []
+    options:
+      cache: true
+      retryCount: 1
+
+  format-write:
+    command: 'npm run format:write'
+    description: 'Format code with Prettier (write)'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tests)'
+      - '@group(configs)'
+      - '@group(docs)'
+      - '@group(i18n)'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 0
+
+  commitlint:
+    command: 'npm run commitlint'
+    description: 'Lint commit messages with Commitlint'
+    toolchain: 'node'
+    inputs:
+      - '@group(configs)'
+    options:
+      cache: false
+      retryCount: 0
+      runInCI: true
+
+  start:
+    command: 'npm start'
+    description: 'Start the application'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(configs)'
+    outputs:
+      - 'dist'
+    options:
+      cache: false
+      persistent: false
+      runInCI: false
+
+  bench:
+    command: 'npm run bench'
+    description: 'Run performance benchmarks'
+    toolchain: 'node'
+    inputs:
+      - '@group(sources)'
+      - '@group(tooling)'
+      - '@group(configs)'
+    outputs: []
+    options:
+      cache: false
+      retryCount: 1

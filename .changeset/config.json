@@ -1,0 +1,10 @@
+{
+  "changelog": ["@changesets/changelog-github", { "repo": "nodeloop/nodeloop" }],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependents": "always",
+  "ignore": []
+}

@@ -1,0 +1,98 @@
+# Workspace-wide task archetypes — inherited by every project.
+# https://moonrepo.dev/docs/config/tasks
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+# File groups common to every project.
+fileGroups:
+  configs:
+    - '*.config.{js,cjs,mjs,ts,mts}'
+    - '*.json'
+    - '*.toml'
+    - 'tsconfig.json'
+    - 'package.json'
+    - 'Cargo.toml'
+    - 'Cargo.lock'
+    - 'rust-toolchain.toml'
+    - '.moon/**/*'
+  sources:
+    - 'src/**/*'
+    - 'types/**/*'
+  tests:
+    - 'test/**/*'
+    - 'tests/**/*'
+    - '**/*.test.ts'
+    - '**/*.test.rs'
+    - '**/__tests__/**/*'
+  docs:
+    - '*.md'
+    - 'docs/**/*'
+    - 'AGENTS.md'
+    - 'CONTRIBUTING.md'
+
+# Inputs implicitly added to every inherited task.
+implicitInputs:
+  - '.moon/workspace.yml'
+  - '.moon/toolchains.yml'
+
+# Task options inherited by all tasks in all projects.
+taskOptions:
+  cache: true
+  retryCount: 2
+  mergeArgs: 'append'
+  mergeDeps: 'append'
+  mergeInputs: 'append'
+  mergeOutputs: 'append'
+
+tasks:
+  ci:
+    description: 'Run moon CI for affected projects'
+    toolchain: 'system'
+    inputs:
+      - '.moon/workspace.yml'
+    deps:
+      - '^:lint'
+      - '^:typecheck'
+      - '^:test'
+      - '^:format'
+    options:
+      cache: false
+      runInCI: true
+
+  affected:
+    description: 'Run moon CI for affected projects only'
+    toolchain: 'system'
+    inputs:
+      - '.moon/workspace.yml'
+    deps:
+      - '^:lint'
+      - '^:typecheck'
+      - '^:test'
+      - '^:format'
+    options:
+      cache: false
+      runInCI: true
+
+  check:
+    description: 'Verify project configuration is valid'
+    toolchain: 'system'
+    inputs:
+      - '.moon/workspace.yml'
+    options:
+      cache: false
+
+  sync:
+    description: 'Sync moon project definitions'
+    toolchain: 'system'
+    inputs:
+      - '.moon/workspace.yml'
+    options:
+      cache: false
+
+  upgrade:
+    description: 'Upgrade moon binary to latest version'
+    toolchain: 'system'
+    inputs: []
+    outputs: []
+    options:
+      cache: false
+      interactive: true

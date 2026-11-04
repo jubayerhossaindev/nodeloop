@@ -1,0 +1,102 @@
+# yamllint rules and options: https://yamllint.readthedocs.io/en/stable/rules.html
+# Base: default preset, relaxed for GitHub Actions / CI workflow YAML.
+extends: default
+
+rules:
+  # ---- syntax / defect rules: kept strict ----
+  anchors:
+    forbid-undeclared-aliases: true
+    forbid-duplicated-anchors: true
+    forbid-unused-anchors: true
+
+  braces:
+    forbid: false
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+
+  brackets:
+    forbid: false
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+
+  commas:
+    max-spaces-before: 0
+    min-spaces-after: 1
+    max-spaces-after: 1
+
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 1
+  comments-indentation: disable
+
+  document-start: disable
+  document-end: disable
+
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 0
+
+  empty-values:
+    forbid-in-block-mappings: false # GitHub Actions `push:` / `pull_request:` etc.
+    forbid-in-flow-mappings: true
+    forbid-in-block-sequences: true
+
+  float-values:
+    require-numeral-before-decimal: true
+    forbid-scientific-notation: false
+    forbid-nan: true
+    forbid-inf: true
+
+  hyphens:
+    max-spaces-after: 1
+
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  key-duplicates:
+    forbid-duplicated-merge-keys: true
+    level: error
+
+  key-ordering: disable
+
+  line-length:
+    max: 120
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+    level: warning
+
+  new-line-at-end-of-file: enable
+  new-lines:
+    type: unix
+
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+
+  quoted-strings: disable
+
+  trailing-spaces: enable
+
+  truthy:
+    allowed-values: ['true', 'false']
+    check-keys: false # `on:` in workflows is a trigger key, not a boolean value
+
+ignore:
+  - .git/
+  - node_modules/
+  - target/
+  - dist/
+  - coverage/
+  - .moon/cache/

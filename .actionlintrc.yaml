@@ -1,0 +1,31 @@
+# actionlint configuration — follows latest docs at v1.7.12
+# See: https://github.com/rhysd/actionlint/tree/v1.7.12/docs/config.md
+# See: https://github.com/rhysd/actionlint/tree/v1.7.12/docs/checks.md
+
+# Self-hosted runner labels (we use GitHub-hosted runners)
+self-hosted-runner:
+  labels: []
+
+# Configuration variables used in the repository (empty = no strict check)
+config-variables: []
+
+# Path-specific configurations for workflow files
+paths:
+  # Match all YAML workflow files under .github/workflows/
+  .github/workflows/**/*.{yml,yaml}:
+    ignore:
+      # Shellcheck rules that conflict with ${{ }} expression syntax
+      # SC1091: Can't follow non-constant source (used for ${{ }} replacement)
+      - 'shellcheck reported issue in this script: SC1091:.+'
+      # SC2050: Parsing of dynamically constructed variable names
+      - 'shellcheck reported issue in this script: SC2050:.+'
+      # SC2194: Array assignment in function
+      - 'shellcheck reported issue in this script: SC2194:.+'
+      # SC2154: var is used but never assigned
+      - 'shellcheck reported issue in this script: SC2154:.+'
+      # SC2157: Avoid using arithmetic expansion
+      - 'shellcheck reported issue in this script: SC2157:.+'
+      # SC2043: all lowercase
+      - 'shellcheck reported issue in this script: SC2043:.+'
+      # SC2016: Expression doesn't expand in single quotes (used for ${{ }} templates)
+      - 'shellcheck reported issue in this script: SC2016:.+'

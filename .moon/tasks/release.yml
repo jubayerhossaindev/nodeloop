@@ -1,0 +1,91 @@
+# Release/publish task archetypes (never run without explicit maintainer permission).
+# https://moonrepo.dev/docs/config/tasks
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+taskOptions:
+  cache: false
+  retryCount: 0
+  mergeArgs: 'append'
+  mergeDeps: 'append'
+  mergeInputs: 'append'
+  mergeOutputs: 'append'
+
+tasks:
+  verifyPackage:
+    command: 'node tooling/scripts/verify-package.ts'
+    description: 'Verify package contents before publish'
+    toolchain: 'node'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+      - 'tooling/scripts/verify-package.ts'
+    outputs: []
+    options:
+      cache: false
+      runInCI: true
+
+  verifyMonorepo:
+    command: 'node tooling/scripts/verify-monorepo.ts'
+    description: 'Verify monorepo structure before release'
+    toolchain: 'node'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+      - '.moon/workspace.yml'
+      - 'tooling/scripts/verify-monorepo.ts'
+    outputs: []
+    options:
+      cache: false
+      runInCI: true
+
+  verifyRelease:
+    command: 'node tooling/scripts/verify-release.ts'
+    description: 'Verify release readiness before publishing'
+    toolchain: 'node'
+    inputs:
+      - 'package.json'
+      - 'Cargo.toml'
+      - 'CHANGELOG.md'
+      - 'tooling/scripts/verify-release.ts'
+    outputs: []
+    options:
+      cache: false
+      runInCI: true
+
+  release-dry:
+    command: 'npx semantic-release --dry-run'
+    description: 'Perform a dry-run semantic release'
+    toolchain: 'node'
+    inputs:
+      - 'package.json'
+      - 'CHANGELOG.md'
+    outputs: []
+    options:
+      cache: false
+      interactive: true
+
+  release-publish:
+    command: 'npx semantic-release'
+    description: 'Publish release via semantic-release'
+    toolchain: 'node'
+    inputs:
+      - 'package.json'
+      - 'CHANGELOG.md'
+    outputs: []
+    options:
+      cache: false
+      interactive: true
+      runInCI: true
+
+  changelog-generate:
+    command: 'npx semantic-release changelog'
+    description: 'Generate changelog without releasing'
+    toolchain: 'node'
+    inputs:
+      - 'package.json'
+      - 'CHANGELOG.md'
+    outputs:
+      - 'CHANGELOG.md'
+    options:
+      cache: false
+      interactive: true

@@ -1,0 +1,21 @@
+{
+  "script": "server.js",
+  "scriptArgs": ["--port", 3000],
+  "ext": ["js", "mjs", "cjs", "json"],
+  "ignore": ["node_modules", "dist", "uploads", "logs"],
+  "watch": ["src", "lib"],
+  "delay": 250,
+  "maxWait": 5000,
+  "verbose": true,
+  "quiet": false,
+  "killSignal": "SIGTERM",
+  "killTimeout": 2000,
+  "env": { "NODE_ENV": "development", "PORT": 3000, "DEBUG": true },
+  "exec": "node",
+  "nodeArgs": ["--enable-source-maps"],
+  "execMap": { "ts": "tsx", "mts": "tsx" },
+  "restartable": "rs",
+  "colours": true,
+  "legacyWatch": false,
+  "events": { "crash": "app crashed — fix and save to restart" }
+}

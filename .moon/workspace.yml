@@ -1,0 +1,36 @@
+# moonrepo workspace definition — https://moonrepo.dev/docs/config/workspace
+$schema: 'https://moonrepo.dev/schemas/workspace.json'
+
+# Every project lives in one of these globs; each carries its own moon.yml.
+projects:
+  - 'packages/nodeloop'
+  - 'crates/*'
+  - 'tooling'
+
+vcs:
+  client: 'git'
+  defaultBranch: 'main'
+  provider: 'github'
+
+# Smart hashing layer tuning.
+hasher:
+  optimization: 'accuracy'
+  warnOnMissingInputs: true
+  ignoreMissingPatterns:
+    - '**/.env'
+    - '**/.env.*'
+    - '**/.gitkeep'
+
+# Action pipeline tuning.
+pipeline:
+  cacheLifetime: '30 days'
+  autoCleanCache: true
+  installDependencies: true
+  logRunningCommand: false
+  killProcessThreshold: 5000
+
+# Telemetry: disable in CI-friendly workspaces.
+telemetry: true
+
+# Enforce moon binary version for reproducibility.
+versionConstraint: '>=2.0.0'

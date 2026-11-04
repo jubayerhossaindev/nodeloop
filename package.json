@@ -1,0 +1,86 @@
+{
+  "name": "nodeloop-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pure nodemon-style auto-restart runner for Node.js. TypeScript CLI + Rust native core. Zero runtime dependencies, modern colorful terminal UI, process-tree kill, 9 config formats. One job: run your script, restart it when files change.",
+  "type": "module",
+  "workspaces": [
+    "packages/nodeloop"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace nodeloop",
+    "typecheck": "npm run typecheck --workspace nodeloop",
+    "typecheck:ts": "npm run typecheck --workspace nodeloop",
+    "check": "npm run typecheck && npm run lint && npm run fmt:rust",
+    "test": "npm test --workspace nodeloop",
+    "test:coverage": "npm run test --workspace nodeloop -- --coverage",
+    "lint": "npm run lint --workspace nodeloop && eslint .",
+    "lint:ts": "eslint .",
+    "lint-staged": "lint-staged --concurrent 1",
+    "lint:md": "markdownlint-cli2 --config .markdownlint.yaml '**/*.md' '!**/node_modules/**' '!**/target/**' '!.git/**'",
+    "lint:rust": "cargo clippy --all-targets -- -D warnings",
+    "fmt:rust": "cargo fmt --all -- --check",
+    "fmt:taplo": "taplo fmt --check .",
+    "fmt:taplo:fix": "taplo fmt .",
+    "test:ts": "npm test --workspace nodeloop",
+    "test:rust": "cargo test --workspace",
+    "test:rust:coverage": "PATH=\"$HOME/.cargo/bin:$PATH\" cargo llvm-cov --workspace --html --ignore-filename-regex napi_bridge",
+    "commitlint": "commitlint --config commitlint.config.js",
+    "release": "semantic-release",
+    "prepare": "husky",
+    "build:native": "node tooling/scripts/build-native.ts",
+    "package:native": "node tooling/scripts/package-native.ts",
+    "start": "node packages/nodeloop/dist/cli.js demo/app.ts",
+    "bench": "node benchmarks/startup.ts && node benchmarks/poll-scan.ts"
+  },
+  "keywords": [
+    "nodemon",
+    "devtools",
+    "hot-reload",
+    "auto-restart",
+    "file-watcher",
+    "config-file",
+    "toml",
+    "yaml",
+    "cli",
+    "nodejs",
+    "typescript",
+    "rust",
+    "napi-rs"
+  ],
+  "author": "nodeloop contributors",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jubayerhossaindev/nodeloop"
+  },
+  "homepage": "https://github.com/jubayerhossaindev/nodeloop#readme",
+  "bugs": {
+    "url": "https://github.com/jubayerhossaindev/nodeloop/issues"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^11.0.1",
+    "@semantic-release/github": "^12.0.10",
+    "@semantic-release/npm": "^13.2.0",
+    "@semantic-release/release-notes-generator": "^14.1.1",
+    "commitlint": "^21.2.4",
+    "conventional-changelog-conventionalcommits": "9.3.1",
+    "eslint": "^10.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "markdownlint-cli": "0.50.0",
+    "markdownlint-cli2": "0.24.0",
+    "nodemon": "3.1.14",
+    "prettier": "^3.9.10",
+    "semantic-release": "^25.0.9",
+    "taze": "21.3.0"
+  }
+}

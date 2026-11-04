@@ -1,0 +1,365 @@
+# clippy.toml — Clippy lint configuration (unstable config file)
+# https://doc.rust-lang.org/stable/clippy/configuration.html
+# https://doc.rust-lang.org/stable/clippy/lint_configuration.html
+# Project: edition = "2024", rust-version = "1.99" (per Cargo.toml)
+# Toolchain: stable (pinned in rust-toolchain.toml)
+
+# ============================================================================
+# MINIMUM SUPPORTED RUST VERSION (MSRV)
+# ============================================================================
+
+# Matches `rust-version = "1.99"` in Cargo.toml. Clippy suppresses lints that
+# suggest APIs/syntax unavailable below this version. Defaults to the
+# `rust-version` field in Cargo.toml if omitted.
+msrv = "1.99"
+
+# ============================================================================
+# API STABILITY
+# ============================================================================
+
+# When true, suppresses lints whose fix would break the public API (semver).
+# Keep `false` while the API is pre-1.0 / not yet stabilized so API-breaking
+# suggestions are surfaced and reviewed. Flip to `true` after API stabilizes.
+# (tracking discussion: rust-lang/api-guidelines#272)
+avoid-breaking-exported-api = false
+
+# ============================================================================
+# NAMING
+# ============================================================================
+
+# Disallowed identifier names. `".."` extends the default list
+# (["foo", "baz", "quux"]) instead of replacing it.
+disallowed-names = [".."]
+
+# Allowed identifiers below min-ident-chars-threshold. `".."` extends the
+# default list (["i", "j", "x", "y", "z", "w", "n"]) instead of replacing it.
+allowed-idents-below-min-chars = [".."]
+
+# Minimum characters an identifier may have (default: 1).
+min-ident-chars-threshold = 1
+
+# Lint short idents even when following a trait declaration (default: false).
+min-ident-chars-lint-trait-impl = false
+
+# List of unicode scripts allowed in identifiers (default: ["Latin"]).
+# Affects: disallowed_script_idents
+allowed-scripts = ["Latin"]
+
+# ============================================================================
+# IMPORT ORDERING & HYGIENE
+# ============================================================================
+
+# Warn on ALL wildcard imports, including prelude, `super` in tests, and
+# `pub use` reexports (default: false). Set `true` for a strict no-glob policy.
+warn-on-all-wildcard-imports = true
+
+# Path segments allowed to have wildcard imports (default: []).
+# Has no effect when warn-on-all-wildcard-imports = true.
+# Paths containing "prelude" are allowed by default.
+allowed-wildcard-imports = []
+
+# Enforced import renames: fully qualified path -> rename.
+# Affects: missing_enforced_import_renames. Each entry is a table:
+#   [[enforced-import-renames]]
+#   path = "std::collections::HashMap"
+#   rename = "Map"
+# Example (uncomment to use):
+#   [[enforced-import-renames]]
+#   path = "std::collections::HashMap"
+#   rename = "Map"
+
+# Absolute paths: which crates are allowed to be referenced via absolute paths
+# (default: []). Affects: absolute_paths.
+absolute-paths-allowed-crates = []
+
+# Maximum number of segments an absolute path may have before linting
+# (default: 2). Affects: absolute_paths.
+absolute-paths-max-segments = 2
+
+# Allowed prefixes for module_name_repetitions (e.g. `to_foo` in module `foo`).
+# `".."` extends the default (["to", "as", "into", "from", "try_into",
+# "try_from"]) instead of replacing it.
+allowed-prefixes = [".."]
+
+# Whether an item may share its name with its containing module (default: true).
+# Affects: module_name_repetitions.
+allow-exact-repetitions = true
+
+# ============================================================================
+# SOURCE-ITEM ORDERING (arbitrary_source_item_ordering)
+# ============================================================================
+
+# Which element kinds should be ordered internally
+# (default: ["enum", "impl", "module", "struct", "trait"]).
+# Affects: arbitrary_source_item_ordering.
+source-item-ordering = ["enum", "impl", "module", "struct", "trait"]
+
+# Order of associated items in traits (default: ["const", "type", "fn"]).
+trait-assoc-item-kinds-order = ["const", "fn", "type"]
+
+# Required ordering of associated items in trait impls:
+# "alphabetical" | "trait_item_ordering" | "alphabetical_or_trait_item_ordering"
+# (default: "alphabetical").
+trait-impl-item-order = "alphabetical"
+
+# Module item order groupings. Each entry is [group_name, [item_kinds...]].
+# Default groupings place `use`/`extern_crate`/`mod` at top, then macros,
+# consts/statics, types, then functions.
+# Affects: arbitrary_source_item_ordering.
+module-item-order-groupings = [
+    [
+        "PascalCase",
+        [
+            "enum",
+            "impl",
+            "struct",
+            "trait",
+            "trait_alias",
+            "ty_alias",
+            "union",
+        ],
+    ],
+    [
+        "UPPER_SNAKE_CASE",
+        [
+            "const",
+            "static",
+        ],
+    ],
+    [
+        "global_asm",
+        [
+            "global_asm",
+        ],
+    ],
+    [
+        "lower_snake_case",
+        [
+            "fn",
+        ],
+    ],
+    [
+        "macros",
+        [
+            "macro",
+        ],
+    ],
+    [
+        "modules",
+        [
+            "extern_crate",
+            "foreign_mod",
+            "mod",
+        ],
+    ],
+    [
+        "use",
+        [
+            "use",
+        ],
+    ],
+]
+
+# Whether items within module groups are ordered alphabetically:
+# "all" | "none" | list of group names (default: "none").
+# Set to "all" to enforce alphabetical ordering within each group, including
+# the `use` group (import ordering within a module).
+module-items-ordered-within-groupings = "all"
+
+# Scope for duplicate inherent impl blocks: "crate" | "file" | "module"
+# (default: "crate"). Affects: multiple_inherent_impl.
+inherent-impl-lint-scope = "crate"
+
+# ============================================================================
+# COMPLEXITY & SIZE THRESHOLDS
+# ============================================================================
+
+# Max cognitive complexity per function (default: 25).
+cognitive-complexity-threshold = 25
+
+# Max nesting depth for a block (default: 0).
+excessive-nesting-threshold = 0
+
+# Max arguments a function/method may have (default: 7).
+too-many-arguments-threshold = 7
+
+# Max lines a function/method may have (default: 100).
+too-many-lines-threshold = 100
+
+# Max bool parameters a function may have; 0 lints on any bool param (default: 3).
+max-fn-params-bools = 3
+
+# Max bool fields a struct may have (default: 3).
+max-struct-bools = 3
+
+# Max size (bytes) of a type considered for passing by value vs reference (default: 256).
+pass-by-value-size-limit = 256
+
+# Max size (bytes) of a Copy type considered for pass-by-value.
+# Default: target_pointer_width (computed at runtime). Set an integer to override.
+# trivial-copy-size-limit = 8
+
+# Max stack array size (bytes) before linting (default: 16384).
+array-size-threshold = 16384
+
+# Max stack size (bytes) per function (default: 512000).
+stack-size-threshold = 512000
+
+# Max enum variant size (bytes) before boxing suggestion (default: 200).
+enum-variant-size-threshold = 200
+
+# Max Future size (bytes) before large_futures lint (default: 16384).
+future-size-threshold = 16384
+
+# Min decimal literal digits before representation lint (default: 16384).
+literal-representation-threshold = 16384
+
+# Max boxed type size (bytes) below which Box<T> triggers unnecessary_box (default: 128).
+unnecessary-box-size = 128
+
+# Max size (bytes) of boxed type allowed in a Vec before vec_box lint (default: 4096).
+vec-box-size-threshold = 4096
+
+# Max size of Err variant in Result returned from function (default: 128).
+large-error-threshold = 128
+
+# Max size (bytes) of file included via include_bytes!/include_str! (default: 1000000).
+max-include-file-size = 1000000
+
+# Max suggested slice-pattern length before suppressing index_refutable_slice (default: 3).
+max-suggested-slice-pattern-length = 3
+
+# Max trait bounds before type_repetition_in_bounds lint (default: 3).
+max-trait-bounds = 3
+
+# Min number of struct fields for struct_field_names lint (default: 3).
+struct-field-name-threshold = 3
+
+# Min number of enum variants for enum_variant_names lint (default: 3).
+enum-variant-name-threshold = 3
+
+# Max single-char bindings in a scope before many_single_char_names (default: 4).
+single-char-binding-names-threshold = 4
+
+# Max type complexity before type_complexity lint (default: 250).
+type-complexity-threshold = 250
+
+# ============================================================================
+# TESTS
+# ============================================================================
+
+# Allow `panic!` in test functions / #[cfg(test)] (default: false).
+allow-panic-in-tests = false
+
+# Allow `expect(...)` in test functions / #[cfg(test)] (default: false).
+allow-expect-in-tests = false
+
+# Allow `unwrap()` in test functions / #[cfg(test)] (default: false).
+allow-unwrap-in-tests = false
+
+# Allow `dbg!` in test functions / #[cfg(test)] (default: false).
+allow-dbg-in-tests = false
+
+# Allow `println!`/`eprintln!` in test functions / #[cfg(test)] (default: false).
+allow-print-in-tests = false
+
+# Check MSRV compatibility in #[test] / #[cfg(test)] code (default: false).
+check-incompatible-msrv-in-tests = false
+
+# ============================================================================
+# DOCS
+# ============================================================================
+
+# Allow fields starting with `_` to skip missing-docs requirements (default: false).
+missing-docs-allow-unused = false
+
+# Only check missing docs for items visible within the current crate (default: false).
+missing-docs-in-crate-items = false
+
+# Check private items for missing_errors_doc / missing_panics_doc /
+# missing_safety_doc / unnecessary_safety_doc (default: false).
+check-private-items = false
+
+# Whether to allow module inception if not public (default: false).
+# Affects: module_inception.
+allow-private-module-inception = false
+
+# ============================================================================
+# IMPORTS (additional hygiene)
+# ============================================================================
+
+# Whether to apply the raw-pointer heuristic to determine if a type is `Send`
+# (default: true). Affects: non_send_fields_in_send_ty.
+enable-raw-pointer-heuristic-for-send = true
+
+# ============================================================================
+# ORDERING / OTHER
+# ============================================================================
+
+# Accept a safety comment above attributes for unsafe blocks (default: true).
+accept-comment-above-attributes = true
+
+# Accept a safety comment above the statement containing an unsafe block (default: true).
+accept-comment-above-statement = true
+
+# Don't lint when comparing a modulo result to zero (default: true).
+allow-comparison-to-zero = true
+
+# Allow mixed uninlined format args (default: true).
+allow-mixed-uninlined-format-args = true
+
+# Check grouped late inits from multiple let statements (default: true).
+check-grouped-late-init = true
+
+# Enforce implicit into_iter reborrow (default: false).
+enforce-iter-loop-reborrow = false
+
+# Lint collapsible if/else-if chains containing comments (default: false).
+lint-commented-code = false
+
+# Suppress restriction lint in const code (default: false).
+suppress-restriction-lint-in-const = false
+
+# Verbose bit-mask threshold (default: 1).
+verbose-bit-mask-threshold = 1
+
+# Warn unsafe macro metavars in private macros (default: false).
+warn-unsafe-macro-metavars-in-private-macros = false
+
+# Matches considered by manual_let_else: "WellKnownTypes" (default).
+matches-for-let-else = "WellKnownTypes"
+
+# Whether the fraction of a decimal should include separators (default: true).
+# Affects: unreadable_literal.
+unreadable-literal-lint-fractions = true
+
+# Upper-case acronyms aggressive mode (default: false).
+# Affects: upper_case_acronyms.
+upper-case-acronyms-aggressive = false
+
+# ============================================================================
+# DISALLOWED ITEMS (project-specific — add as needed)
+# ============================================================================
+#
+# Disallowed macros (fully qualified paths), e.g.:
+#   [[disallowed-macros]]
+#   path = "std::panic::panic"
+#   reason = "use Result/Option error handling instead"
+#   replacement = "?"
+#
+# Disallowed methods (fully qualified paths), e.g.:
+#   [[disallowed-methods]]
+#   path = "std::fs::read_to_string"
+#   reason = "use async fs counterpart"
+#   replacement = "tokio::fs::read_to_string"
+#
+# Disallowed types (fully qualified paths), e.g.:
+#   [[disallowed-types]]
+#   path = "std::collections::LinkedList"
+#   reason = "poor performance characteristics"
+#   replacement = "std::collections::VecDeque"
+#
+# Disallowed fields (fully qualified paths), e.g.:
+#   [[disallowed-fields]]
+#   path = "some::crate::internal_field"
+#   reason = "private implementation detail"

@@ -1,0 +1,249 @@
+# markdownlint configuration for nodeloop project
+#
+# This file configures markdownlint-cli2 with professional best practices
+# for a professional open-source project.
+#
+# Rules documentation: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+# CLI documentation:   https://github.com/igorshubovych/markdownlint-cli#configuration
+# CLI2 documentation:  https://github.com/DavidAnson/markdownlint-cli2
+#
+# Usage:
+#   npx markdownlint-cli2 --config .markdownlint.yaml '**/*.md'
+#   npx markdownlint-cli2 --config .markdownlint.yaml --fix '**/*.md'
+#
+# npm script:
+#   npm run lint:md
+
+# Enable all rules by default, then selectively disable project preferences
+default: true
+
+# ============================================================================
+# CORE STRUCTURAL RULES (header hierarchy & document structure)
+# ============================================================================
+
+# MD001: Header increment — headers should only increase by one level at a time
+# Prevents skipping heading levels (e.g., h1 → h3 without h2)
+MD001: true
+
+# MD003: Header style — consistent heading style (atx vs setext)
+# atx = # Heading, setext = Heading with === underneath
+MD003:
+  style: atx
+
+# MD018: No missing space after hash (#)
+# Requires space between # and heading text: "# Title" not "#Title"
+MD018: true
+
+# MD019: No multiple spaces after hash (#)
+MD019: true
+
+# MD020: No missing space inside closing hash (#)
+# For closed atx headings: "# Title #" not "#Title#"
+MD020: true
+
+# MD021: No multiple spaces inside closing hash (#)
+MD021: true
+
+# MD022: Blanks around headings — headings should be surrounded by blank lines
+MD022: true
+
+# MD023: Header start at left — headings should start at beginning of line
+MD023: true
+
+# MD024: No duplicate headers — same heading text should not appear twice
+MD024:
+  siblings_only: true
+
+# MD025: Single title — only one h1 per document
+MD025: true
+
+# MD026: No trailing punctuation in heading
+# Headings should not end with ., !, ?, etc.
+MD026: true
+
+# MD041: First line in file should be a top-level heading — disabled
+MD041: false
+
+# ============================================================================
+# LIST RULES (bulleted & numbered lists)
+# ============================================================================
+
+# MD004: Unordered list style — consistent bullet style
+# Options: "consistent", "dash", "asterisk", "plus"
+MD004:
+  style: dash
+
+# MD005: List indentation — consistent indentation for list items
+# Default indent is 2 spaces
+MD005: true
+
+# MD007: Unordered list indentation — consistent indentation for unordered lists
+MD007:
+  indent: 2
+
+# MD027: No multiple spaces after blockquote symbol
+MD027: true
+
+# MD028: No blank lines inside blockquote
+MD028: true
+
+# MD029: Ordered list item prefix — consistent numbering
+# Options: "one", "ordered", "consistent"
+MD029:
+  style: ordered
+
+# MD030: Spaces after list markers
+# Requires single space after list marker: "- item" not "-  item"
+MD030: true
+
+# MD058: Ul style inside lists — consistent ul style inside ordered lists
+MD058: true
+
+# ============================================================================
+# SPACING & BLANK LINE RULES
+# ============================================================================
+
+# MD009: No trailing spaces — no spaces at end of lines
+MD009: true
+
+# MD010: No hard tabs — use spaces instead of tabs
+MD010: true
+
+# MD012: No multiple consecutive blank lines
+MD012:
+  maximum: 1
+
+# MD031: Blanks around fenced code blocks
+MD031: true
+
+# MD032: Blanks around lists — lists should be surrounded by blank lines
+MD032: true
+
+# ============================================================================
+# CODE BLOCK RULES
+# ============================================================================
+
+# MD040: Fenced code blocks should have a language specified — disabled
+# Requires ```javascript not just ```
+MD040: false
+
+# MD046: Code block style — disabled
+# Options: "fenced", "indented"
+MD046: false
+
+# MD048: Code fence style — backticks or tildes
+# Options: "backtick", "tilde"
+MD048:
+  style: backtick
+
+# MD055: Code block style — fenced blocks only (disables indented code blocks)
+MD055: false
+
+# ============================================================================
+# EMPHASIS & STRONG RULES
+# ============================================================================
+
+# MD037: No space inside emphasis — **text** not ** text **
+MD037: true
+
+# MD038: No space inside code span — `code` not ` code `
+MD038: true
+
+# MD039: No space inside links — [text](url) not [ text ](url)
+MD039: true
+
+# MD049: Emphasis style — consistent emphasis style
+# Options: "consistent", "*", "_"
+MD049:
+  style: asterisk
+
+# MD050: Strong style — consistent strong style
+# Options: "consistent", "**", "__"
+MD050:
+  style: asterisk
+
+# MD056: No blockquotes inside list items
+MD056: true
+
+# MD057: TOC style — table of contents style
+# Options: "consistent", "ordered", "unordered"
+MD057: true
+
+# ============================================================================
+# LINK & URL RULES
+# ============================================================================
+
+# MD011: No reversed links — link text should not equal URL
+# Prevents [https://example.com](https://example.com)
+MD011: true
+
+# MD034: No bare URLs — enabled (bare URLs should have link text)
+MD034: true
+
+# MD051: Link fragments should be valid
+# Anchor links should reference existing headings
+MD051: true
+
+# MD052: Empty links should not have link text
+# Prevents [text]()
+MD052: true
+
+# MD053: Link title should not be duplicated with link text
+# Prevents [text](url "text")
+MD053: true
+
+# MD054: Correct alt text for images
+# Images should have descriptive alt text
+MD054: true
+
+# ============================================================================
+# HORIZONTAL RULE RULES
+# ============================================================================
+
+# MD035: Horizontal rule style — consistent HR style
+# Options: "consistent", "---", "***", "___"
+MD035:
+  style: consistent
+
+# MD036: No emphasis as heading — don't use **text** as a heading
+MD036: true
+
+# ============================================================================
+# TABLE RULES
+# ============================================================================
+
+# MD060: Table column style — disabled (project preference for compact tables)
+MD060: false
+
+# MD061: List state after blank line
+MD061: true
+
+# MD062: No duplicate identifiers — heading IDs should be unique
+MD062: true
+
+# MD063: No empty identifiers — heading IDs should not be empty
+MD063: true
+
+# ============================================================================
+# DISABLED RULES (project preferences)
+# ============================================================================
+
+# MD013: Line length — disabled because READMEs/guides often have long URLs,
+# long commands, and table content that cannot be reasonably wrapped
+MD013: false
+
+# MD033: No inline HTML — disabled because HTML is sometimes needed in docs
+# for admonitions, details/summary, etc.
+MD033: false
+
+# MD043: Required headings — disabled because not all docs need specific headings
+# (requires custom heading list which is project-specific)
+MD043: false
+
+# MD044: Proper names should have proper capitalization — disabled
+#   (requires custom names list; project-specific)
+MD044: false
+
+# MD059: Title case in list item — disabled because list items may be code
+# snippets or commands that don't follow title case
+MD059: false

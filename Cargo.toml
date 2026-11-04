@@ -1,0 +1,18 @@
+[workspace]
+members  = ["crates/nodeloop-core", "crates/nodeloop-native"]
+resolver = "2"
+
+[workspace.package]
+edition      = "2024"
+license      = "MIT"
+repository   = "https://github.com/jubayerhossaindev/nodeloop"
+rust-version = "1.99"
+version      = "1.0.0"
+
+[profile.release]
+codegen-units = 1
+lto           = true
+strip         = "symbols"
+
+[workspace.lints.clippy]
+all = {level = "warn", priority = -1}

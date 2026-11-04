@@ -1,0 +1,45 @@
+# rust-toolchain.toml — Rust toolchain pinning (rustup override)
+# https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file
+# Project: edition = "2024", rust-version = "1.99" (per Cargo.toml workspace)
+#
+# This file is checked into source control so every contributor and CI job
+# uses the identical compiler. rustup proxies (cargo, rustc, clippy, rustfmt)
+# detect it automatically on directory entry and install the pinned toolchain
+# if it is not already present.
+
+[toolchain]
+
+# Release channel. "stable" is the production channel (6-week release cadence).
+# Pin to a specific version (e.g. "1.99.0") or a dated nightly if reproducibility
+# beyond the latest stable is required. channel and path are mutually exclusive.
+channel = "stable"
+
+# rustup install profile: minimal | default | complete.
+# "default" includes rustc, cargo, std; clippy/rustfmt/rust-src are added
+# explicitly via components below. "complete" is discouraged (bulk: docs, etc.).
+profile = "default"
+
+# Additional components installed on top of the profile. Additive.
+#   rustfmt   — code formatter (npm run fmt:rust / cargo fmt)
+#   clippy    — linter (npm run lint / cargo clippy)
+#   rust-src  — standard library source (helpful for rust-analyzer / docs)
+#   rust-analysis — data for rust-analyzer / RLS (IDE support)
+#   llvm-tools-preview — bitcode/coverage tooling (tarpaulin, codecov)
+components = [
+    "clippy",
+    "llvm-tools-preview",
+    "rust-analysis",
+    "rust-src",
+    "rustfmt",
+]
+
+# Cross-compilation targets installed for this toolchain. The host target is
+# added automatically; entries here are additive. Relevant for the native
+# addon (nodeloop-native) which may be built for multiple platforms.
+# Examples (uncomment and adjust per release matrix):
+# targets = [
+#   "wasm32-unknown-unknown",   # WebAssembly
+#   "x86_64-unknown-linux-musl",# static Linux
+#   "aarch64-apple-darwin",     # Apple Silicon
+#   "x86_64-pc-windows-gnu",    # Windows (MinGW)
+# ]

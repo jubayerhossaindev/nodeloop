@@ -1,0 +1,14 @@
+# .prettierignore — files Prettier should never touch
+node_modules/
+dist/
+target/
+coverage/
+.tmp/
+.vitest/
+*.node
+*.tgz
+.moon/cache/
+.moon/state/
+.husky/_/
+tarpaulin-report.json
+CHANGELOG.md

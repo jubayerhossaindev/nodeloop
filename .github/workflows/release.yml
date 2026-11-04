@@ -1,0 +1,78 @@
+name: Package release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Run Semantic Release dry-run
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Release validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+          cache: 'npm'
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies & Validate
+        run: |
+          npm install --no-audit --no-fund --force
+          npm run build
+          npm run build:native
+          npm test
+
+  release:
+    name: Semantic Release
+    needs: verify
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.22.2'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --force
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Run Semantic Release (Dry-Run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release --extends "./release.config.js" --dry-run
+
+      - name: Run Semantic Release (Publish)
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run == false)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release --extends "./release.config.js"
